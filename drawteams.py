@@ -8,33 +8,15 @@
 #
 # author:        Staffan Axelsson - staffax@live.com
 #
-# last modified: 3/29/2020
+# last modified: 4/08/2020
 #
 
 import random
 import sys
 import math
 
-
-def cscore():
-    # generates a random score (based on probability) of blank, score 1-8 or a steal of 1-8.
-    curlingscores = [ 0, 1, 2, 3, 4, 5, 6,  7,  8,-1,-2,-3,-4, -5, -6,  -7,  -8]
-    curlingodds   = [30,65,35,15, 5, 2, 1,0.4,0.2,20, 5, 2, 1,0.2,0.1,0.05,0.01]
-    choice = random.choices(curlingscores, weights=curlingodds, k=1)
-    return choice[0]
-
-def concedelevel(end):
-    # generates a random number that is the score to be down by (depending on end) in order to concede the game
-    perenddiff = random.choices([3,4,5,6],k=1)[0]
-    if end >= 8:
-        return perenddiff
-    else:
-        return perenddiff*(8-end)
-
-
 ### MAIN PROGRAM ####
 
-# if two arguments are supplied, assume they are team_1 and team_2. Else ask for teamnames
 if len(sys.argv) == 2:
     filename = sys.argv[1]
 else:
@@ -73,7 +55,6 @@ for i in range(1, numteams+1):
                 playertaken = True
     leaguelist.append(teamlist)
     
-i = 1
 for mmteam in leaguelist:
     teamname = mmteam[0].split()[-1]
     skip = mmteam[0]
@@ -86,13 +67,14 @@ for mmteam in leaguelist:
     print(vice + ' ' * (24 - len(vice)), end = '')
     print(seco + ' ' * (24 - len(seco)), end = '')
     print(frst + ' ' * (24 - len(frst)))
-    
-    #print(str(i) + ') Team ' + mmteam[0].split()[-1])
-    #for player in mmteam:
-    #    print(player)
-    #print()
-    i += 1
-    
+
+#print subs if there are uneven number of players
+sublist = set(playerlist) - set(takenplayers)
+if len(sublist) > 0:
+    print('\nSubs:')
+    for sub in sublist:
+        print(sub)
+
         
                 
         

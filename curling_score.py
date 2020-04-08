@@ -8,7 +8,7 @@
 #
 # author:        Staffan Axelsson - staffax@live.com
 #
-# last modified: 3/22/2020
+# last modified: 4/08/2020
 #
 
 import random
@@ -70,12 +70,10 @@ def playagame(team_a, team_b):
                elif endscore == 0:
                    team_a_score.append('0')
                    team_b_score.append('0')
-                   #team_a_hammer = True
                else:
                    team_b_score.append(str(abs(endscore)))
                    totbscore += abs(endscore)
                    team_a_score.append('0')
-                   #team_a_hammer = True
            else:
                if endscore > 0:
                    team_b_score.append(str(endscore))
@@ -85,20 +83,13 @@ def playagame(team_a, team_b):
                elif endscore == 0:
                    team_a_score.append('0')
                    team_b_score.append('0')
-                   #team_a_hammer = False
                else:
                    team_a_score.append(str(abs(endscore)))
                    totascore += abs(endscore)
                    team_b_score.append('0')
-                   #team_a_hammer = False
 
-       #print('A score = ' + str(totascore))
-       #print('B score = ' + str(totbscore))
-       if totascore > totbscore:
-           scdiff = totascore - totbscore
-       else:
-           scdiff = totbscore - totascore
-
+       scdiff = abs(totascore - totbscore)
+       
        if handshakes:
            if not handshook:
                if totbscore > totascore:
@@ -111,24 +102,19 @@ def playagame(team_a, team_b):
            if abs(endscore) == 8:
                addtext = ' (8-ENDER ALERT. CONGRATS!!)'
            if endhammer:
-               if int(endscore) < 0:
-                   print('End ' + str(end) + ': ' + team_a.upper() + ' has hammer and gives up a steal of ' + str(abs(endscore)) + addtext)
-               elif int(endscore) == 0:
-                   print('End ' + str(end) + ': ' + team_a.upper() + ' has hammer and blanks the end.')
-               else:
-                   print('End ' + str(end) + ': ' + team_a.upper() + ' has hammer and scores a ' + str(endscore) + addtext)
+               teamteam = team_a.upper()
            else:
-               if int(endscore) < 0:
-                   print('End ' + str(end) + ': ' + team_b.upper() + ' has hammer and gives up a steal of ' + str(abs(endscore)) + addtext)
-               elif int(endscore) == 0:
-                   print('End ' + str(end) + ': ' + team_b.upper() + ' has hammer and blanks the end.')
-               else:
-                   print('End ' + str(end) + ': ' + team_b.upper() + ' has hammer and scores a ' + str(endscore) + addtext)
-
-       if end >= 8 and totascore != totbscore:
+               teamteam = team_b.upper()
+           if int(endscore) < 0:
+               print('End ' + str(end) + ': ' + teamteam + ' has hammer and gives up a steal of ' + str(abs(endscore)) + addtext)
+           elif int(endscore) == 0:
+               print('End ' + str(end) + ': ' + teamteam + ' has hammer and blanks the end.')
+           else:
+               print('End ' + str(end) + ': ' + teamteam + ' has hammer and scores a ' + str(endscore) + addtext)
+           
+       if end >= 8 and scdiff != 0:
            gameisongoing = False 
 
-       #print('Scoring diff = ' + str(scdiff) + ' , concede level = ' + str(conc))
        if scdiff >= conc:
            handshakes = True
 
@@ -162,6 +148,7 @@ def playagame(team_a, team_b):
 
 # if two arguments are supplied, assume they are team_1 and team_2. Else ask for teamnames
 if len(sys.argv) == 2:
+    # future functionality simulate a league
     if sys.argv[1] == 'league':
         leaguelist = []
         newteam = ''
@@ -176,10 +163,8 @@ else:
     team_a = input('Enter Team #1: ')
     team_b = input('Enter Team #2: ')
 
-#team_a_dict = {'name':team_a, 'hammer': 'A'}
-#team_b_dict = {'name':team_b, 'hammer': 'B'}
 
-#team dictionary
+# future functionality simulate a league
 team_dict = {team_a: {'win': 0, 'loss': 0},
              team_b: {'win': 0, 'loss': 0}}
 
@@ -190,4 +175,4 @@ else:
     team_dict[team_a]['loss'] += 1
     team_dict[team_b]['win'] +=1
     
-print(team_dict)
+#print(team_dict)
